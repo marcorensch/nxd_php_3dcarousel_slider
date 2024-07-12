@@ -1,86 +1,176 @@
-:root {
-    --sliderWidth: 200px;
-    --rotateX: -10deg;
-    --perspective: 1000px;
-    --radius: 550px;
-    --duration: 20s;
+html{
+    background: #040712;
+}
+body {
+    margin-bottom:0;
+    background: rgb(40,40,40);
+    background: radial-gradient(circle, rgba(40,40,50,.3) 0%, rgba(40,40,50,0) 100%);
+}
+.nxd-slider-container {
+    --sliderElWidth: 400px; /* 200px    */
+    --sliderElHeight: 250px; /* 250px    */
+    --sliderElHPaddingPrecent : 50%;
+    --sliderTopMargin: 20%;
+    --rotateX: -20deg; /* -10deg   */
+    --perspective: 1000px; /* 1000px   */
+    --radius: 550px; /* 550px    */
+    --duration: 20s; /* 20s      */
+    --modalBackgroundColor: rgba(12, 12, 12, 1);
+    --modalTextColor: #d6d6d6;
+    --modalBorderRadius: .6rem;
+    --previewBorderRadius: .6rem;
 }
 
-.banner {
+.nxd-slider-container .banner {
     width: 100%;
     height: 100vh;
     text-align: center;
     overflow: hidden;
     position: relative;
 }
-
-.banner .slider {
+.nxd-slider-container .banner .slider-container {
     position: absolute;
-    width: var(--sliderWidth);
-    height: 250px;
-    top: 10%;
-    left: calc(50% - (var(--sliderWidth) / 2)); /* Center minus half of the width */
+    width: var(--sliderElWidth);
+    /*height: 0; var(--sliderElHeight); */
+    top: var(--sliderTopMargin);
+    left: calc(50% - (var(--sliderElWidth) / 2)); /* Center minus half of the width */
+    z-index: 4;
+}
+.nxd-slider-container .banner .slider {
+    padding-bottom: var(--sliderElHPaddingPrecent);
+
     /* 3D */
     transform-style: preserve-3d;
-    transform: perspective(var(--perspective));
-    animation: autoRunClockwise var(--duration) linear infinite;
+    transform: perspective(var(--perspective)) rotateX(var(--rotateX));
     z-index: 4;
 }
 
-.banner .slider.clockwise {
+.nxd-slider-container .banner .slider.clockwise {
     animation: autoRunClockwise var(--duration) linear infinite;
 }
 
-.banner .slider.counter-clockwise{
+.nxd-slider-container .banner .slider.counter-clockwise {
     animation: autoRunCounterClockwise var(--duration) linear infinite;
 }
 
 
 @keyframes autoRunCounterClockwise {
     0% {
-        transform:
-                perspective(var(--perspective))
-                rotateX(var(--rotateX))
-                rotateY(0deg);
+        transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
     }
 
     100% {
-        transform:
-                perspective(var(--perspective))
-                rotateX(var(--rotateX))
-                rotateY(360deg);
+        transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(360deg);
     }
 }
 
 @keyframes autoRunClockwise {
     0% {
-        transform:
-                perspective(var(--perspective))
-                rotateX(var(--rotateX))
-                rotateY(0deg);
+        transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
     }
 
     100% {
-        transform:
-                perspective(var(--perspective))
-                rotateX(var(--rotateX))
-                rotateY(-360deg);
+        transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(-360deg);
     }
 }
 
-.banner .slider .item {
+.nxd-slider-container .banner .slider .item {
     position: absolute;
     inset: 0 0 0 0;
     transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(var(--radius));
+    transition: all ease-in-out .2s;
+    border-radius: var(--previewBorderRadius);
+    overflow: hidden;
+
+    &:hover {
+        transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(var(--radius)) rotateX(20deg);
+        scale: 1.05;
+    }
 }
 
-.banner .slider .item img {
+.nxd-slider-container .banner .slider .item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.banner .content {
+.nxd-slider-container .banner .slider dialog {
+
+    max-width: 70vw;
+
+    border: none !important;
+    border-radius: var(--modalBorderRadius);
+    padding: 0;
+
+    div.lightbox-content {
+
+        background: var(--modalBackgroundColor);
+        color: var(--modalTextColor);
+
+        h3 {
+            font-family: Avenir, sans-serif;
+            margin: 0;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        div.lightbox-text {
+            padding: 15px;
+            font-family: sans-serif;
+            font-weight: lighter;
+        }
+
+    }
+
+    img {
+        max-width: 70vw;
+        max-height: 70vh;
+        vertical-align: top; /*Line height IMG element */
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50px;
+        height: 50px;
+        color: var(--modalTextColor);
+        background:rgba(12, 12, 12, .7);
+        border-bottom-left-radius: var(--modalBorderRadius);
+        font-size: 2rem;
+        opacity: .7;
+        transition: .2s;
+
+        &:hover{
+            opacity: 1;
+        }
+
+        >*{
+            cursor: pointer;
+            margin-top: 8px;
+           &:hover{
+               color: #fff;
+               text-shadow: 0 0 10px rgba(0,0,0, .8);
+           }
+        }
+
+
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &::backdrop {
+        backdrop-filter: blur(20px);
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+}
+
+
+.nxd-slider-container .banner .content {
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -95,8 +185,8 @@
     z-index: 3;
 }
 
-.banner .content .model {
-    background-image: url("/images/model.png");
+.nxd-slider-container .banner .content .model {
+    background-image: url("/images/model_bgrem.png");
     width: 100%;
     height: 75vh;
     position: absolute;
@@ -106,3 +196,41 @@
     background-repeat: no-repeat;
     background-position: top center;
 }
+
+.nxd-slider-container .controls-container{
+    font-family: Avenir, sans-serif;
+    font-size: 10rem;
+    line-height: 10rem;
+    height: 10rem;
+    user-select: none;
+
+    position: absolute;
+    /* Align vertically centered full width */
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    padding:2rem;
+
+
+    /* flex child items and make sure first is fully left and the second fully right oriented */
+    display: flex;
+    justify-content: space-between;
+
+    /* Vertical align text in the middle */
+    align-items: center;
+
+    /* Font orientation to center for line height */
+    text-align: center;
+
+    &>div{
+        cursor: pointer;
+        padding:2rem;
+        color: rgba(255, 255, 255, 0.2);
+        transition: 0.2s;
+        &:hover{
+            color: rgba(255, 255, 255, 0.8);
+        }
+    }
+}
+
