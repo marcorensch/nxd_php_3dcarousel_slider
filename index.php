@@ -39,7 +39,7 @@ CSS;
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Crazy 3D Image Slider Carousel</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css?v=1.0.9">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css?v=1.0.10">
     <style>
         <?php echo $cssVars;?>
     </style>
@@ -85,8 +85,10 @@ CSS;
                 </div>
             </div>
             <div class="content">
-                <div class="model">
-
+                <div class="model"></div>
+                <div class="model-text">
+                    <h1>NXD CRAZY 3D SLIDER</h1>
+                    <p class="credits">Credits: Original Code by Lun Dev: <a href="https://www.youtube.com/watch?v=yqaLSlPOUxM" target="_blank">Link</a></p>
                 </div>
             </div>
             <?php if ($showControls): ?>
@@ -101,6 +103,9 @@ CSS;
             <?php endif; ?>
         </div>
     </div>
+</div>
+<div style="height: 100vh; background: black;">
+    Next Container
 </div>
 </body>
 </html>
