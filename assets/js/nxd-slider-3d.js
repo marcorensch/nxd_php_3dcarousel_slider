@@ -55,6 +55,7 @@ class NxdSlider3D {
 
     addItemEventListeners() {
         if (!this.items) return;
+        if(!this.items[0].querySelector("dialog")) return;
 
         this.items.forEach(item => {
             item.addEventListener("mouseover", this.pauseAnimation.bind(this));

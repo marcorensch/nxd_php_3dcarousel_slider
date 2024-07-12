@@ -1,13 +1,15 @@
 <?php
 
 $extensionID = 21;
-
+$useDialog = false;
 $autoRunDirection = ""; // counter-clockwise | clockwise | ""
 $showControls = $autoRunDirection === '';
 $sliderElWidth = "250px";
 $previewRatio = "16:14";
 $rotationX = -20;
 $perspective = 1000;
+$itemsCount = 8;
+$filenamePrefix = "example_";
 
 $previewRatioW = intval(explode(':', $previewRatio)[0]);
 $previewRatioH = intval(explode(':', $previewRatio)[1]);
@@ -39,12 +41,12 @@ CSS;
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Crazy 3D Image Slider Carousel</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css?v=1.0.10">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css?v=1.0.13">
     <style>
         <?php echo $cssVars;?>
     </style>
     <script type="module">
-        import {NxdSlider3D} from "./assets/js/nxd-slider-3d.js?v=1.0.3";
+        import {NxdSlider3D} from "./assets/js/nxd-slider-3d.js?v=1.0.4";
 
         document.addEventListener("DOMContentLoaded", () => {
             const nxd3DSlider = new NxdSlider3D("#module_<?php echo $extensionID; ?>");
@@ -55,7 +57,7 @@ CSS;
             if (!autoRunDirection.trim() && showControls) {
                 nxd3DSlider.addControllerEventListeners();
             }
-        })
+        });
     </script>
 </head>
 <body>
@@ -63,11 +65,12 @@ CSS;
     <div id="module_<?php echo $extensionID; ?>">
         <div class="banner">
             <div class="slider-container">
-                <div class="slider <?php echo $autoRunDirection; ?>" style="--quantity:8">
-                    <?php for ($i = 1; $i <= 8; $i++): ?>
+                <div class="slider <?php echo $autoRunDirection; ?>" style="--quantity:<?php echo $itemsCount;?>">
+                    <?php for ($i = 1; $i <= $itemsCount; $i++): ?>
                         <div class="item" style="--position:<?php echo $i; ?>"
                              data-image="images/example_<?php echo $i; ?>.jpg">
-                            <img src="images/example_<?php echo $i; ?>.jpg" alt="Example Image <?php echo $i; ?>">
+                            <img src="images/<?php echo $filenamePrefix . $i; ?>.jpg" alt="Example Image <?php echo $i; ?>">
+                            <?php if($useDialog):?>
                             <dialog>
                                 <div class="lightbox-close">
                                     <div>&#x2715;</div>
@@ -80,6 +83,7 @@ CSS;
                                     </div>
                                 </div>
                             </dialog>
+                            <?php endif;?>
                         </div>
                     <?php endfor; ?>
                 </div>
@@ -88,7 +92,8 @@ CSS;
                 <div class="model"></div>
                 <div class="model-text">
                     <h1>NXD CRAZY 3D SLIDER</h1>
-                    <p class="credits">Credits: Original Code by Lun Dev: <a href="https://www.youtube.com/watch?v=yqaLSlPOUxM" target="_blank">Link</a></p>
+                    <p class="credits">Credits: Original Code by Lun Dev: <a href="https://www.youtube.com/watch?v=yqaLSlPOUxM" target="_blank">Link</a>.
+                        <br>Images by <a href="https://unsplash.com" target="_blank">unsplash.com</a></p>
                 </div>
             </div>
             <?php if ($showControls): ?>
